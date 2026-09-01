@@ -1,0 +1,60 @@
+# Build and Release Folders
+bin-debug/
+bin-release/
+[Oo]bj/
+[Bb]in/
+
+# Other files and folders
+.settings/
+
+# Executables
+*.swf
+*.air
+*.ipa
+*.apk
+
+#过滤掉不想要文件和文件夹
+*.exe
+*.sln
+*.vcxproj
+*.filters
+*.user
+*.suo
+*.db
+*.ipch
+*.json
+Debug/
+.vs
+Release/
+
+# Visual Studio 编译输出
+[Dd]ebug*/
+[Rr]elease*/
+x64/
+*.obj
+*.pdb
+*.ilk
+*.exe
+*.tlog
+*.log
+*.db
+*.idb
+*.pch
+*.ipch
+*.sdf
+*.opensdf
+
+# Visual Studio 用户文件和临时文件
+*.suo
+*.user
+*.vcxproj.user
+*.slnx
+*.filters
+
+# VS Code 配置（可选，如果不希望共享）
+.vscode/
+
+# 其他系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
