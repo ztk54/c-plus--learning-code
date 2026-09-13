@@ -196,5 +196,15 @@ Date Date::operator--(int)
 	return tem;
 }
 
+ostream& operator<<(ostream& out, const Date& d)
+{
+	out << d._year << "年" << d._month << "月" << d._day << "日" << endl;
+	return out;
+}
 
-
+istream& operator>>(istream& in, Date& d)
+{
+	cout << "请分别输入年月日" << endl;
+	in >> d._year >> d._month >> d._day;
+	return in;
+}

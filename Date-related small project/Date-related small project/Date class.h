@@ -6,6 +6,11 @@ using namespace std;
 class Date
 {
 public:
+    // 友元：让全局的 << >> 能访问私有成员
+    friend ostream& operator<<(ostream& out, const Date& d);
+    friend istream& operator>>(istream& in, Date& d);
+
+
 	Date(int year = 2026, int month = 9, int day = 13);
 	void Print();
     int  GetMonthDay(int year, int month);
