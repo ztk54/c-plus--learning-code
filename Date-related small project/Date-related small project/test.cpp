@@ -1,4 +1,4 @@
-#include "Date class.h"
+﻿#include "Date class.h"
 
 int main()
 {
@@ -7,4 +7,6 @@ int main()
 	d1.Print();
 	d2.Print();
 	cout << d2 - d1 << endl;
+	cout << d1;
+	cout << d2;
 }

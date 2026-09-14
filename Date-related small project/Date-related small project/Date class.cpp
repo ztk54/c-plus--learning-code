@@ -1,4 +1,4 @@
-#include "Date class.h"
+﻿#include "Date class.h"
 
 // static 成员变量必须在类外定义（且不能再写 static）
 int Date::monthDayArray[13] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };

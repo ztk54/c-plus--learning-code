@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <assert.h>
 using namespace std;
@@ -40,3 +40,6 @@ private:
 	int _day;
     static int monthDayArray[13];
 };
+
+ostream& operator<<(ostream& out, const Date& d);
+istream& operator>>(istream& in, Date& d);
