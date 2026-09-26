@@ -1,4 +1,5 @@
-#include <iostream>
+﻿#include <iostream>
+#include <string>
 using namespace std;
 
 //class A 
@@ -40,21 +41,53 @@ using namespace std;
 //	int _day;
 //};
 
-class Date
+//class Date
+//{
+//public:
+//	Date& operator=(const Date& d)
+//	{
+//		if (this != &d)
+//		{
+//			_year = d._year;
+//			_month = d._month;
+//			_day = d._day;
+//		}
+//		return *this;
+//	}
+//private:
+//	int _year;
+//	int _month;
+//	int _day;
+//};
+
+
+int main()
 {
-public:
-	Date& operator=(const Date& d)
+	string note;
+	string original_topic = "Date class";
+	string current_topic(original_topic);
+
+	string before_revsion = current_topic;
+	current_topic = "first";
+
+	before_revsion = current_topic;
+	current_topic = "two";
+
+	before_revsion = current_topic;
+	current_topic = "vector";
+	string div(20, '-');
+
+	if (note.empty())
 	{
-		if (this != &d)
-		{
-			_year = d._year;
-			_month = d._month;
-			_day = d._day;
-		}
-		return *this;
+		cout << "还没有填写备注" << endl;
 	}
-private:
-	int _year;
-	int _month;
-	int _day;
-};
+	else
+	{
+		cout << "备注：" << note << endl;
+	}
+	cout << current_topic.size() << endl;
+
+	cout << div << endl;
+	cout << original_topic << ' ' << before_revsion << ' ' << current_topic << ' ' << endl;
+	cout << div << endl;
+}
