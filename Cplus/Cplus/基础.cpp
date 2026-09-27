@@ -91,7 +91,47 @@ int main()
 	before_revision = current_topic;
 	cout << "请输入当前主题" << endl;
 	getline(cin, current_topic);
+	string preview(current_topic);
+	if (!preview.empty())
+	{
+		cout << "首字符:" << preview.front() << endl;
+		cout << "尾字符:" << preview.back() << endl;
+		preview[0] = '*';
+	}
+	else
+	{
+		cout << "没有可预览的主题" << endl;
+	}
 
+	int count = 0;
+	//下标＋[]
+	for (size_t i = 0;i < preview.size();i++)
+	{
+		if (preview[i] == ' ')
+		{
+			++count;
+			preview[i] = '_';
+		}
+	}
+	//auto范围for
+	for (char& ch : preview)
+	{
+		if (ch == ' ')
+		{
+			++count;
+			ch = '_';
+		}
+	}
+	//迭代器
+	for (auto it = preview.begin();it != preview.end();++it)
+	{
+		if (*it == ' ')
+		{
+			++count;
+			*it = '_';
+		}
+	}
+	cout << preview << endl;
 	
 	cout << current_topic.size() << endl;
 	string sub1(original_topic, 0, 4);
@@ -101,4 +141,19 @@ int main()
 	cout << original_topic << ' ' << before_revision << ' ' << current_topic << ' ' << endl;
 	cout << div << endl;
 	cout << sub1 <<' ' << sub2 << endl;
+
+	//int day;
+	//cin >> day;
+	//int c;
+	//while (( c = getchar()) != '\n'&&c!=EOF)
+	//{
+	//}
+	//getline(cin, note);
+
+	//int day;
+	//cin >> day;
+	//string tmp;
+	//getline(cin, tmp);
+	//getline(cin, note);
+
 }
