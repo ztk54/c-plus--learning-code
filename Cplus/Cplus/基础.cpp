@@ -81,17 +81,35 @@ int main()
 	getline(cin, note);
 	if (!note.empty())
 	{
-		size_t tem = note.size();
 		string edited_note(note);
 		edited_note.push_back('!');
-		edited_note.append("|tomorrow");
+		string append_text = "|tomorrow";
+		edited_note.append(append_text);
 		edited_note.insert(0, "[todo]");
 		cout << "原备注：" << note << endl << "第一次编辑后备注: " << edited_note << endl;
 
 		edited_note.replace(0, 6, "[done]");
-		edited_note.erase(6, tem);
+		edited_note.erase(edited_note.size() - append_text.size(), append_text.size());
 		string final = edited_note;
 		edited_note.clear();
+		cout << edited_note.empty() << endl;
+
+		size_t pos1 = final.find('[');
+		size_t pos2 = final.find(']');
+		string status = final.substr(pos1 + 1, pos2 - pos1 - 1);
+		string main_text = final.substr(pos2 + 1);
+		cout << "状态：" << status << ' ' << "正文：" << main_text << endl;
+
+		size_t pos3 = main_text.find("Date");
+		if (pos3 == string::npos)
+		{
+			cout << "没有找到" << endl;
+		}
+		else
+		{
+			cout << "起始位置" << pos3 << endl;
+		}
+
 		cout << "最终结果：" << final << endl;
 	}
 	else
@@ -156,7 +174,7 @@ int main()
 		cout << "不相同" << endl;
 	}
 	cout << preview << endl;
-	
+
 	cout << current_topic.size() << endl;
 	string sub1(original_topic, 0, 4);
 	string sub2(original_topic, 5);
@@ -164,7 +182,7 @@ int main()
 	cout << div << endl;
 	cout << original_topic << ' ' << before_revision << ' ' << current_topic << ' ' << endl;
 	cout << div << endl;
-	cout << sub1 <<' ' << sub2 << endl;
+	cout << sub1 << ' ' << sub2 << endl;
 
 	//int day;
 	//cin >> day;
