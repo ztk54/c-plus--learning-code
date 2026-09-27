@@ -67,16 +67,18 @@ int main()
 	string original_topic = "Date class";
 	string current_topic(original_topic);
 
-	string before_revsion = current_topic;
+	string before_revision = current_topic;
 	current_topic = "first";
 
-	before_revsion = current_topic;
+	before_revision = current_topic;
 	current_topic = "two";
 
-	before_revsion = current_topic;
+	before_revision = current_topic;
 	current_topic = "vector";
 	string div(20, '-');
 
+	cout << "请填写备注" << endl;
+	getline(cin, note);
 	if (note.empty())
 	{
 		cout << "还没有填写备注" << endl;
@@ -85,9 +87,18 @@ int main()
 	{
 		cout << "备注：" << note << endl;
 	}
+
+	before_revision = current_topic;
+	cout << "请输入当前主题" << endl;
+	getline(cin, current_topic);
+
+	
 	cout << current_topic.size() << endl;
+	string sub1(original_topic, 0, 4);
+	string sub2(original_topic, 5);
 
 	cout << div << endl;
-	cout << original_topic << ' ' << before_revsion << ' ' << current_topic << ' ' << endl;
+	cout << original_topic << ' ' << before_revision << ' ' << current_topic << ' ' << endl;
 	cout << div << endl;
+	cout << sub1 <<' ' << sub2 << endl;
 }
