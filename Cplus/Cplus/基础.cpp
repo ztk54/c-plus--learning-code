@@ -79,13 +79,24 @@ int main()
 
 	cout << "请填写备注" << endl;
 	getline(cin, note);
-	if (note.empty())
+	if (!note.empty())
 	{
-		cout << "还没有填写备注" << endl;
+		size_t tem = note.size();
+		string edited_note(note);
+		edited_note.push_back('!');
+		edited_note.append("|tomorrow");
+		edited_note.insert(0, "[todo]");
+		cout << "原备注：" << note << endl << "第一次编辑后备注: " << edited_note << endl;
+
+		edited_note.replace(0, 6, "[done]");
+		edited_note.erase(6, tem);
+		string final = edited_note;
+		edited_note.clear();
+		cout << "最终结果：" << final << endl;
 	}
 	else
 	{
-		cout << "备注：" << note << endl;
+		cout << "还没有填写备注" << endl;
 	}
 
 	before_revision = current_topic;
@@ -130,6 +141,19 @@ int main()
 			++count;
 			*it = '_';
 		}
+	}
+	string prexic = "[主题]";
+	string display = prexic + current_topic;
+	display += "|预览";
+	display += preview;
+	cout << display << endl;
+	if (current_topic == original_topic)
+	{
+		cout << "与原始主题相同" << endl;
+	}
+	else
+	{
+		cout << "不相同" << endl;
 	}
 	cout << preview << endl;
 	
