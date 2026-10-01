@@ -304,7 +304,7 @@ namespace ztk
 	{
 		str.clear();
 		char ch = in.get();
-		while (ch != ' ' || ch != '\n')
+		while (ch != ' ' && ch != '\n')
 		{
 			str += ch;
 			ch = in.get();
