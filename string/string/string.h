@@ -16,6 +16,15 @@ namespace ztk
 		size_t capacity();
 		const char* c_str();
 
+		char& operator[](size_t pos);
+		const char& operator[](size_t pos)const;
+		void reserve(size_t n);
+		void push_back(char c);
+		void append(const char* s);
+		void append(const string& s);
+
+		string(const string&) = delete;
+		string& operator=(const string&) = delete;
 	private:
 		char* _str;
 		size_t _size;
