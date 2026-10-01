@@ -201,9 +201,18 @@ namespace ztk
 		}
 	}
 
+	void string::clear()
+	{
+		_size = 0;
+		_str[0] = '\0';
+	}
+
 	size_t string::find(char ch, size_t pos) const
 	{
-		assert(pos <= _size);
+		if (pos > _size)
+		{
+			return npos;
+		}
 		size_t p = pos;
 		while (p < _size)
 		{
@@ -213,14 +222,19 @@ namespace ztk
 			}
 			p++;
 		}
-		if (p == _size)
-		{
 			return npos;
-		}
 	}
 
 	size_t string::find(const char* text, size_t pos) const
 	{
+		if (pos > _size)
+		{
+			return npos;
+		}
+		if (strlen(text)==0)
+		{
+			return pos;
+		}
 		size_t p1 = pos, p2 = 0, p3 = 0;
 		while (p1 < _size)
 		{
@@ -247,6 +261,22 @@ namespace ztk
 		return npos;
 	}
 
+	//这里会使用深拷贝
+	string string::substr(size_t pos, size_t len) const
+	{
+		if (len == npos || len >= _size)
+		{
+			len = _size - pos;
+		}
+		string ret;
+		ret.reserve(len);
+		for (size_t i = 0;i < len;i++)
+		{
+			ret += _str[pos + i];
+		}
+		return ret;
+	}
+
 	string& string::operator=(const string& other)
 	{
 		if (this == &other)
@@ -269,6 +299,17 @@ namespace ztk
 			out << str[i];
 		}
 		return out;
+	}
+	istream& operator>>(istream& in, string& str)
+	{
+		str.clear();
+		char ch = in.get();
+		while (ch != ' ' || ch != '\n')
+		{
+			str += ch;
+			ch = in.get();
+		}
+		return in;
 	}
 	void test1()
 	{
@@ -301,15 +342,15 @@ namespace ztk
 		//	cout << *it << ' ';
 		//}
 
-		string s = "Hello world";
-		const char* text = "Hello world";
-		if (s.find(text) == string::npos)
+		string s = "Date";
+		const char* text = "";
+		if (s.find(text,5) == string::npos)
 		{
 			cout << "未找到" << endl;
 		}
 		else
 		{
-			cout << s.find(text) << endl;
+			cout << s.find(text,5) << endl;
 		}
 	}
 }

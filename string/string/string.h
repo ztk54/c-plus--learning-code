@@ -38,8 +38,10 @@ namespace ztk
 
 		void insert(size_t pos, char ch);
 		void erase(size_t pos, size_t len = npos);
+		void clear();
 		size_t find(char ch, size_t pos = 0)const;
 		size_t find(const char* text, size_t pos = 0)const;
+		string substr(size_t pos, size_t len)const;
 	private:
 		char* _str;
 		size_t _size;
@@ -49,4 +51,5 @@ namespace ztk
 	};
 	void test1();
 	ostream& operator<<(ostream& out, const string& str);
+	istream& operator>>(istream& in, string& str);
 }
