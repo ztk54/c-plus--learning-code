@@ -7,7 +7,7 @@ namespace ztk
 {
 	class string
 	{
-	friend ostream& operator<<(ostream& out, const string& str);
+		friend ostream& operator<<(ostream& out, const string& str);
 	public:
 		string();
 		string(const char* str);
@@ -15,6 +15,7 @@ namespace ztk
 		size_t size();
 		size_t capacity();
 		const char* c_str();
+		string(const string& other);
 
 		char& operator[](size_t pos);
 		const char& operator[](size_t pos)const;
@@ -22,9 +23,19 @@ namespace ztk
 		void push_back(char c);
 		void append(const char* s);
 		void append(const string& s);
+		string& operator+=(char c);
+		string& operator+=(const char* str);
+		string& operator+=(const string& str);
+		string& operator=(const string& other);
 
-		string(const string&) = delete;
-		string& operator=(const string&) = delete;
+		using iterator = char*;
+		using const_iterator = const char*;
+		iterator begin();
+		iterator end();
+		const_iterator begin() const;
+		const_iterator end() const;
+
+		void insert(size_t pos, char ch);
 	private:
 		char* _str;
 		size_t _size;
