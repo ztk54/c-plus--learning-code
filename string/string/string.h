@@ -2,6 +2,7 @@
 #include <iostream>
 #include <assert.h>
 #include <string.h>
+#include <cctype>
 using namespace std;
 
 namespace ztk

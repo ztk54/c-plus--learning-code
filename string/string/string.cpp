@@ -264,16 +264,22 @@ namespace ztk
 	//这里会使用深拷贝
 	string string::substr(size_t pos, size_t len) const
 	{
-		if (len == npos || len >= _size)
+		assert(pos <= _size);
+
+		size_t remaining = _size - pos;
+		if (len == npos || len > remaining)
 		{
-			len = _size - pos;
+			len = remaining;
 		}
+
 		string ret;
 		ret.reserve(len);
-		for (size_t i = 0;i < len;i++)
+
+		for (size_t i = 0; i < len; ++i)
 		{
 			ret += _str[pos + i];
 		}
+
 		return ret;
 	}
 
@@ -303,12 +309,36 @@ namespace ztk
 	istream& operator>>(istream& in, string& str)
 	{
 		str.clear();
-		char ch = in.get();
-		while (ch != ' ' && ch != '\n')
+		in >> std::ws;
+
+		while (in)
 		{
+			int next = in.peek();
+
+			if (next == std::char_traits<char>::eof())
+			{
+				break;
+			}
+
+			if (std::isspace(static_cast<unsigned char>(next)))
+			{
+				break;
+			}
+
+			char ch;
+			if (!in.get(ch))
+			{
+				break;
+			}
+
 			str += ch;
-			ch = in.get();
 		}
+
+		if (str.size() == 0)
+		{
+			in.setstate(std::ios::failbit);
+		}
+
 		return in;
 	}
 	void test1()
