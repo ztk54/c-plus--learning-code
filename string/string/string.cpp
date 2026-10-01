@@ -1,7 +1,8 @@
-#include "string.h"
+﻿#include "string.h"
 
 namespace ztk
 {
+	const size_t string::npos = -1;
 	string::string()
 		//初始化列表要使用括号初始化
 		:_str(new char[1])
@@ -143,7 +144,7 @@ namespace ztk
 
 	string::iterator string::end()
 	{
-		return _str+_size;
+		return _str + _size;
 	}
 
 	string::const_iterator string::begin() const
@@ -153,25 +154,97 @@ namespace ztk
 
 	string::const_iterator string::end() const
 	{
-		return _str+_size;
+		return _str + _size;
 	}
 
 	void string::insert(size_t pos, char ch)
 	{
-		assert(pos<=_size);
+		assert(pos <= _size);
 		if (_size >= _capacity)
 		{
-			size_t newcapacity = _capacity == 0?4:2 * _capacity;
+			size_t newcapacity = _capacity == 0 ? 4 : 2 * _capacity;
 			reserve(newcapacity);
 		}
-		int end = _size;
-		while (end >= pos)
+
+		//强转防止end为-1发生整形提升变为最大值
+		//int end = _size;
+		//while (end >= (int)pos)
+		//{
+		//	_str[end + 1] = _str[end];
+		//	end--;
+		//}
+
+		size_t end = _size + 1;
+		while (end > pos)
 		{
-			_str[end + 1] = _str[end];
+			_str[end] = _str[end - 1];
 			end--;
 		}
+
 		_str[pos] = ch;
 		_size++;
+	}
+
+	void string::erase(size_t pos, size_t len)
+	{
+		assert(pos <= _size);
+		if (len == npos || len > (_size - pos))
+		{
+			_size = pos;
+			_str[pos] = '\0';
+		}
+		else
+		{
+			size_t i = pos + len;
+			memmove(_str + pos, _str + i, _size - i + 1);
+			_size -= len;
+		}
+	}
+
+	size_t string::find(char ch, size_t pos) const
+	{
+		assert(pos <= _size);
+		size_t p = pos;
+		while (p < _size)
+		{
+			if (_str[p] == ch)
+			{
+				return p;
+			}
+			p++;
+		}
+		if (p == _size)
+		{
+			return npos;
+		}
+	}
+
+	size_t string::find(const char* text, size_t pos) const
+	{
+		size_t p1 = pos, p2 = 0, p3 = 0;
+		while (p1 < _size)
+		{
+			p3 = 0;
+			p2 = p1;
+			while (p3 < strlen(text))
+			{
+				if (text[p3] == _str[p2])
+				{
+					p2++;
+					p3++;
+				}
+				else
+				{
+					break;
+				}
+			}
+			if (p3 == strlen(text))
+			{
+				return p1;
+			}
+			p1++;
+		}
+		return npos;
 	}
 
 	string& string::operator=(const string& other)
@@ -199,33 +272,44 @@ namespace ztk
 	}
 	void test1()
 	{
-		string Date="hello";
-		string s = "nihao";
-		cout << Date.capacity() << Date.size() << Date.c_str() << endl;
-		cout << s.capacity() << s.size() << s.c_str() << endl;
+		//string Date = "hello";
+		//string s = "nihao";
+		//cout << Date.capacity() << Date.size() << Date.c_str() << endl;
+		//cout << s.capacity() << s.size() << s.c_str() << endl;
 
-		cout << "empty: [" << Date << "] size=" << Date.size()
-			<< " capacity=" << Date.capacity() << '\n';
-		cout << "text: [" << s << "] size=" << s.size()
-			<< " capacity=" << s.capacity() << '\n';
+		//cout << "empty: [" << Date << "] size=" << Date.size()
+		//	<< " capacity=" << Date.capacity() << '\n';
+		//cout << "text: [" << s << "] size=" << s.size()
+		//	<< " capacity=" << s.capacity() << '\n';
 
-		s.append(" world");
-		cout << "text: [" << s << "] size=" << s.size()
-			<< " capacity=" << s.capacity() << '\n';
+		//s.append(" world");
+		//cout << "text: [" << s << "] size=" << s.size()
+		//	<< " capacity=" << s.capacity() << '\n';
 
-		string tmp(s);
-		tmp = Date;
-		tmp += "123456";
-		cout << "text: [" << s << "] size=" << s.size()
-			<< " capacity=" << s.capacity() << '\n';
+		//string tmp(s);
+		//tmp = Date;
+		//tmp += "123456";
+		//cout << "text: [" << s << "] size=" << s.size()
+		//	<< " capacity=" << s.capacity() << '\n';
 
-		tmp += "111111";
-		cout << "text: [" << tmp << "] size=" << tmp.size()
-			<< " capacity=" << tmp.capacity() << '\n';
+		//tmp += "111111";
+		//cout << "text: [" << tmp << "] size=" << tmp.size()
+		//	<< " capacity=" << tmp.capacity() << '\n';
 
-		for (string::iterator it = tmp.begin();it != tmp.end();it++)
+		//for (string::iterator it = tmp.begin();it != tmp.end();it++)
+		//{
+		//	cout << *it << ' ';
+		//}
+
+		string s = "Hello world";
+		const char* text = "Hello world";
+		if (s.find(text) == string::npos)
 		{
-			cout << *it << ' ';
+			cout << "未找到" << endl;
+		}
+		else
+		{
+			cout << s.find(text) << endl;
 		}
 	}
 }

@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <string.h>
 using namespace std;
+
 namespace ztk
 {
 	class string
@@ -36,10 +37,15 @@ namespace ztk
 		const_iterator end() const;
 
 		void insert(size_t pos, char ch);
+		void erase(size_t pos, size_t len = npos);
+		size_t find(char ch, size_t pos = 0)const;
+		size_t find(const char* text, size_t pos = 0)const;
 	private:
 		char* _str;
 		size_t _size;
 		size_t _capacity;
+	public:
+		static const size_t npos;
 	};
 	void test1();
 	ostream& operator<<(ostream& out, const string& str);
