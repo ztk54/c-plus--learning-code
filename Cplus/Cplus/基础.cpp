@@ -313,7 +313,7 @@ int main()
 	getline(cin, s);
 	size_t left_frame_pos1 = s.find('[');
 	size_t right_frame_pos2 = s.find(']');
-	y7size_t first_line_pos1 = s.find('|',right_frame_pos2+1);
+	size_t first_line_pos1 = s.find('|',right_frame_pos2+1);
 	size_t two_line_pos2 = s.find('|',first_line_pos1+1);
 	size_t three_line_pos3 = s.rfind('|');
 

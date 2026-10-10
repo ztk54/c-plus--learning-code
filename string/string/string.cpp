@@ -314,31 +314,25 @@ namespace ztk
 		while (in)
 		{
 			int next = in.peek();
-
-			if (next == std::char_traits<char>::eof())
+			if (next == char_traits<char>::eof())
 			{
 				break;
 			}
-
-			if (std::isspace(static_cast<unsigned char>(next)))
+			if (isspace(static_cast<unsigned char>(next)))
 			{
 				break;
 			}
-
 			char ch;
 			if (!in.get(ch))
 			{
 				break;
 			}
-
 			str += ch;
 		}
-
 		if (str.size() == 0)
 		{
 			in.setstate(std::ios::failbit);
 		}
-
 		return in;
 	}
 	void test1()
