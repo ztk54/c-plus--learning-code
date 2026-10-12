@@ -1,6 +1,8 @@
 ﻿#include <iostream>
 #include <string>
 #include <vector>
+#include <iomanip>
+#include <algorithm>
 using namespace std;
 
 //void menu()
@@ -21,10 +23,6 @@ using namespace std;
 //	cout << "输入11清空列表" << endl;
 //	cout << div << endl;
 //}
-
-#include <iostream>
-#include <iomanip>
-#include <string>
 
 void menu()
 {
@@ -49,6 +47,16 @@ void menu()
 	cout << "  " << setw(2) << 9 << ". 删除连续一段\n";
 	cout << "  " << setw(2) << 10 << ". 删除最后一条\n";
 	cout << "  " << setw(2) << 11 << ". 清空列表\n";
+
+	cout << "  [其他操作]\n";
+	cout << "  " << setw(2) << 12 << ". 显示目前记录数\n";
+	cout << "  " << setw(2) << 13 << ". 预留容量\n";
+	cout << "  " << setw(2) << 14 << ". 调整记录数\n";
+	cout << "  " << setw(2) << 15 << ".删除空记录\n";
+	cout << "  " << setw(2) << 16 << ".文本查询\n";
+	cout << "  " << setw(2) << 17 << ".关键词查询\n";
+	cout << "  " << setw(2) << 18 << ".默认排序\n";
+	cout << "  " << setw(2) << 19 << ".文本长度排序\n";
 
 	cout << "  " << setw(2) << 0 << ". 退出程序\n";
 	cout << line << '\n';
@@ -227,6 +235,149 @@ void clear_vector(vector <string>& records)
 	records.clear();
 }
 
+void view_status(const vector<string>& records)
+{
+	cout << "当前记录数：" << records.size() << endl;
+	cout << "容量数：" << records.capacity() << endl;
+}
+
+void adjust_capacity(vector <string>& records)
+{
+	cout << "当前容量为：" << records.capacity() << endl;
+	cout << "请输入你要预留的容量" << endl;
+	int n = 0;
+	cin >> n;
+	if (n < 0 || (int)n != n)
+	{
+		cout << "输入无效" << endl;
+	}
+	else
+	{
+		records.reserve((size_t)n);
+	}
+}
+
+void adjust_records(vector <string>& records)
+{
+	cout << "请选择以何种方式调整记录" << endl;
+	string div(30, '-');
+	cout << div << endl;
+	cout << "输入1以resize(n)方式调整" << endl;
+	cout << "输入2以resize(n, text)方式调整" << endl;
+	cout << div << endl;
+	int choice = 0;
+	cin >> choice;
+	if (choice == 1)
+	{
+		int n1 = 0;
+		cout << "请输入调整数量" << endl;
+		cin >> n1;
+		if (n1 < 0 || (int)n1 != n1)
+		{
+			cout << "输入不合法" << endl;
+		}
+		else
+		{
+			records.resize(n1);
+		}
+	}
+	else if (choice == 2)
+	{
+		int n2 = 0;
+		cout << "请输入调整数量" << endl;
+		cin >> n2;
+		if (n2 < 0 || (int)n2 != n2)
+		{
+			cout << "输入不合法" << endl;
+		}
+		else
+		{
+			string tmp;
+			getline(cin, tmp);
+			cout << "请输入新增text" << endl;
+			string text;
+			getline(cin, text);
+			records.resize(n2, text);
+		}
+	}
+	else
+	{
+		cout << "输入无效" << endl;
+	}
+}
+
+void erase_blank(vector <string>& records)
+{
+	vector<string>::iterator it = records.begin();
+	while (it != records.end())
+	{
+		if ((*it).empty())
+		{
+			it = records.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
+}
+
+void find_string(const vector <string>& records)
+{
+	string text;
+	int flag = 0;
+	cout << "请输入查询文本" << endl;
+	getline(cin, text);
+	auto it = find(records.begin(), records.end(), text);
+	while (it != records.end())
+	{
+		flag = -1;
+		cout << (it - records.begin() + 1) << ". " << *it << '\n';
+		it = find(it + 1, records.end(), text);
+	}
+	if (flag == 0)
+	{
+		cout << "未找到" << endl;
+	}
+}
+
+void find_the_key(const vector<string>records)
+{
+	string key;
+	int flag = -1;
+	cout << "请输入查询关键字" << endl;
+	getline(cin, key);
+	auto it = records.begin();
+	while (it != records.end())
+	{
+		if ((*it).find(key) != string::npos)
+		{
+			flag = 0;
+			cout << "第" << it - records.begin() + 1 << "条为:" << *it << endl;
+		}
+		++it;
+	}
+	if (flag == -1)
+	{
+		cout << "未找到" << endl;
+	}
+}
+
+void ogriginal_sort(const vector<string>records)
+{
+	sort(records.begin(), records.end());
+}
+
+bool large_first(string a, string b)
+{
+	return a.size() > b.size();
+}
+
+void sort_by_size(const vector<string>records)
+{
+	sort(records.begin(), records.end(), large_first);
+}
+
 int main()
 {
 	cout << "请进行输入" << endl;
@@ -273,6 +424,30 @@ int main()
 			break;
 		case 11:
 			clear_vector(records);
+			break;
+		case 12:
+			view_status(records);
+			break;
+		case 13:
+			adjust_capacity(records);
+			break;
+		case 14:
+			adjust_records(records);
+			break;
+		case 15:
+			erase_blank(records);
+			break;
+		case 16:
+			find_string(records);
+			break;
+		case 17:
+			find_the_key(records);
+			break;
+		case 18:
+			ogriginal_sort(records);
+			break;
+		case 19:
+			sort_by_size(records);
 			break;
 		case 0:
 			cout << "退出程序" << endl;
