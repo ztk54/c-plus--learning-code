@@ -57,10 +57,11 @@ void menu()
 	cout << "  " << setw(2) << 17 << ".关键词查询\n";
 	cout << "  " << setw(2) << 18 << ".默认排序\n";
 	cout << "  " << setw(2) << 19 << ".文本长度排序\n";
+	cout << "  " << setw(2) << 20 << ".按照关键词删除\n";
 
 	cout << "  " << setw(2) << 0 << ". 退出程序\n";
 	cout << line << '\n';
-	cout << "请选择操作（0-11）> ";
+	cout << "请选择操作（0-20）> ";
 }
 
 int Input_records(vector <string>& Input)
@@ -341,10 +342,10 @@ void find_string(const vector <string>& records)
 	}
 }
 
-void find_the_key(const vector<string>records)
+void find_the_key(const vector<string>&records)
 {
 	string key;
-	int flag = -1;
+	int flag = 0;
 	cout << "请输入查询关键字" << endl;
 	getline(cin, key);
 	auto it = records.begin();
@@ -352,18 +353,23 @@ void find_the_key(const vector<string>records)
 	{
 		if ((*it).find(key) != string::npos)
 		{
-			flag = 0;
+			++flag;
 			cout << "第" << it - records.begin() + 1 << "条为:" << *it << endl;
 		}
 		++it;
 	}
-	if (flag == -1)
+	if (flag == 0)
 	{
 		cout << "未找到" << endl;
 	}
+	else
+	{
+		cout << "一共找到了" << flag << "条" << endl;
+	}
 }
 
-void ogriginal_sort(const vector<string>records)
+//传递引用修改原值
+void ogriginal_sort(vector<string>& records)
 {
 	sort(records.begin(), records.end());
 }
@@ -373,88 +379,120 @@ bool large_first(string a, string b)
 	return a.size() > b.size();
 }
 
-void sort_by_size(const vector<string>records)
+void sort_by_size(vector<string>& records)
 {
 	sort(records.begin(), records.end(), large_first);
 }
 
-int main()
+void erase_by_key(vector<string>& records)
 {
-	cout << "请进行输入" << endl;
-	vector <string> records;
-	int choice = -1;
-	choice = Input_records(records);
-	while (choice != 0)
+	cout << "请输入删除关键词" << endl;
+	string key;
+	int flag = 0;
+	getline(cin, key);
+	if (!key.empty())
 	{
-		menu();
-		cin >> choice;
-		string tmp;
-		getline(cin, tmp);
-		switch (choice)
+		auto it = records.begin();
+		while (it != records.end())
 		{
-		case 1:
-			preview(records);
-			break;
-		case 2:
-			view_the_selected(records);
-			break;
-		case 3:
-			view_front_and_rear(records);
-			break;
-		case 4:
-			replace_selected(records);
-			break;
-		case 5:
-			add_prefix(records);
-			break;
-		case 6:
-			append_record(records);
-			break;
-		case 7:
-			insert_selected(records);
-			break;
-		case 8:
-			erase_selected_pos(records);
-			break;
-		case 9:
-			erase_selected_section(records);
-			break;
-		case 10:
-			erase_last_pos(records);
-			break;
-		case 11:
-			clear_vector(records);
-			break;
-		case 12:
-			view_status(records);
-			break;
-		case 13:
-			adjust_capacity(records);
-			break;
-		case 14:
-			adjust_records(records);
-			break;
-		case 15:
-			erase_blank(records);
-			break;
-		case 16:
-			find_string(records);
-			break;
-		case 17:
-			find_the_key(records);
-			break;
-		case 18:
-			ogriginal_sort(records);
-			break;
-		case 19:
-			sort_by_size(records);
-			break;
-		case 0:
-			cout << "退出程序" << endl;
-			break;
-		default:
-			cout << "无效选项，请重新选择。" << endl;
-			break;
+			if ((*it).find(key) != string::npos)
+			{
+				++flag;
+				it = records.erase(it);
+			}
+			else
+			{
+				++it;
+			}
 		}
+		cout<<"共删除"<<flag<<"条"<<endl;
+	}
+	else
+	{
+		cout << "关键词为空" << endl;
 	}
 }
+
+//int main()
+//{
+//	cout << "请进行输入" << endl;
+//	vector <string> records;
+//	int choice = -1;
+//	choice = Input_records(records);
+//	while (choice != 0)
+//	{
+//		menu();
+//		cin >> choice;
+//		string tmp;
+//		getline(cin, tmp);
+//		switch (choice)
+//		{
+//		case 1:
+//			preview(records);
+//			break;
+//		case 2:
+//			view_the_selected(records);
+//			break;
+//		case 3:
+//			view_front_and_rear(records);
+//			break;
+//		case 4:
+//			replace_selected(records);
+//			break;
+//		case 5:
+//			add_prefix(records);
+//			break;
+//		case 6:
+//			append_record(records);
+//			break;
+//		case 7:
+//			insert_selected(records);
+//			break;
+//		case 8:
+//			erase_selected_pos(records);
+//			break;
+//		case 9:
+//			erase_selected_section(records);
+//			break;
+//		case 10:
+//			erase_last_pos(records);
+//			break;
+//		case 11:
+//			clear_vector(records);
+//			break;
+//		case 12:
+//			view_status(records);
+//			break;
+//		case 13:
+//			adjust_capacity(records);
+//			break;
+//		case 14:
+//			adjust_records(records);
+//			break;
+//		case 15:
+//			erase_blank(records);
+//			break;
+//		case 16:
+//			find_string(records);
+//			break;
+//		case 17:
+//			find_the_key(records);
+//			break;
+//		case 18:
+//			ogriginal_sort(records);
+//			break;
+//		case 19:
+//			sort_by_size(records);
+//			break;
+//		case 20:
+//			erase_by_key(records);
+//			break;
+//		case 0:
+//			cout << "退出程序" << endl;
+//			break;
+//		default:
+//			cout << "无效选项，请重新选择。" << endl;
+//			break;
+//		}
+//	}
+//}
